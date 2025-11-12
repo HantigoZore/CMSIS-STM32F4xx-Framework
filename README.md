@@ -29,7 +29,7 @@ Ideal para quienes buscan:
 ---
 
 ## 📁 Estructura del proyecto
-
+```
 BareMetal-STM32F4xx/
 ├── include/ → Headers principales
 │ ├── Configuracion.h
@@ -38,12 +38,10 @@ BareMetal-STM32F4xx/
 │ ├── Configuracion.cpp
 │ ├── Delay.cpp
 ├── examples/ → Ejemplos listos para compilar
-│ ├── Blink/
-│ ├── PWM_Test/
-│ └── UART_Test/
+│ ├── Ejemplo1.cpp
 ├── LICENSE
 └── README.md
-
+```
 ## ⚙️ Uso en PlatformIO
 
 Crea un nuevo proyecto para STM32F411RE (Nucleo).
@@ -74,3 +72,81 @@ Este proyecto está bajo la licencia MIT, por lo que puedes usarlo libremente en
 
 ¡Las contribuciones son bienvenidas!
 Puedes abrir un Issue o enviar un Pull Request con mejoras, correcciones o nuevos ejemplos.
+
+# 🧠 Ejemplos de uso por módulo
+## ⚙️ GPIO
+
+```cpp
+#include "Configuracion.h"
+#include "Delay.h"
+
+Pines led;
+
+int main() {
+    led.ModoPin(PA5, 1); // Configura PA5 como salida
+    while (1) {
+        led.SalidaPin(PA5, 1); // LED ON
+        Delay_ms(500);
+        led.SalidaPin(PA5, 0); // LED OFF
+        Delay_ms(500);
+    }
+}
+```
+## 💬 USART
+
+```cpp
+#include "Configuracion.h"
+
+USART serial;
+
+int main() {
+    serial.Comunicacion(2, 'A', 9600); // USART2, Puerto A, 9600 baud
+    while (1) {
+        serial.TransmitirDatos("Hola STM32 CMSIS!\r\n");
+        Delay_ms(1000);
+    }
+}
+```
+
+## 🧭 ADC
+
+```cpp
+#include "Configuracion.h"
+
+Analogo adc;
+
+int main() {
+    adc.Conversion(PA0); // Canal ADC1 - PA0
+    adc.IniciarADC();    // Inicia conversión
+}
+```
+
+## 🕹️ PWM
+
+```cpp
+#include "Configuracion.h"
+
+Timers timer;
+
+int main() {
+    timer.PWM(3, 'B', 1, 0, 0, 0, 1000); // Timer3, canal 1, 1kHz
+    while (1) {
+        for (int duty = 0; duty <= 100; duty += 5) {
+            timer.CicloUtil(3, 1, duty);
+            Delay_ms(100);
+        }
+    }
+}
+```
+## 🔄 I2C
+
+```cpp
+#include "Configuracion.h"
+
+i2c bus;
+
+int main() {
+    bus.IDOSC(1, 100000); // I2C1 a 100kHz
+    bus.DatoI2C(0x50, 0xA0); // Envía dato a dirección 0x50
+}
+```
