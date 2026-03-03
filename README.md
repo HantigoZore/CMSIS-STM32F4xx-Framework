@@ -1,135 +1,128 @@
 # ⚙️ CMSIS-STM32F4xx-Framework
-> Librería modular en C++ basada en CMSIS para la familia STM32F4xx (sin HAL ni CubeMX).
+
+> **Librería modular en C++ basada en CMSIS para la familia STM32F4xx.** > *Desarrollo Bare-Metal puro: sin HAL, sin CubeMX, control total.*
 
 ---
 
 ## 🚀 Descripción
-**CMSIS-STM32F4xx-Framework** es una librería orientada a objetos que permite programar microcontroladores **STM32F4xx** directamente con **CMSIS**, sin depender de HAL o CubeMX.  
-Incluye control completo de periféricos con código claro, portable y de bajo nivel.
 
-Ideal para quienes buscan:
-- Aprender a usar CMSIS de forma práctica.
-- Programar con total control sobre los registros.
-- Crear proyectos bare-metal con sintaxis C++ limpia y moderna.
+**CMSIS-STM32F4xx-Framework** es una solución orientada a objetos diseñada para desarrolladores que buscan exprimir al máximo el rendimiento de los microcontroladores **STM32F4xx**. Al eliminar las capas de abstracción pesadas (HAL), obtienes un código más ligero, rápido y predecible.
 
----
-
-## 🧩 Características principales
-- 🧠 **CMSIS puro**: sin HAL, sin CubeMX, acceso directo a los registros.
-- 🔌 **Periféricos incluidos**:
-  - GPIO con interrupciones externas.
-  - Timers (PWM, Input Capture, Encoder).
-  - USART (RX/TX + interrupciones).
-  - ADC (conversión simple).
-  - I2C (transmisión, recepción y prueba de dispositivos).
-  - Reloj del sistema (HCLK, APB1, APB2).
-- ⏱️ **Delay por software** en micro y milisegundos.
-- 💡 Ejemplos prácticos para PlatformIO o STM32CubeIDE.
+### ✨ ¿Por qué usar este framework?
+* **Aprendizaje profundo:** Entiende qué pasa realmente en los registros del procesador.
+* **Eficiencia:** Código optimizado con la mínima huella de memoria.
+* **Sintaxis Moderna:** El poder de C++ (clases y objetos) aplicado al bajo nivel.
 
 ---
 
-## 📁 Estructura del proyecto
-```
-BareMetal-STM32F4xx/
-├── include/ → Headers principales
-│ ├── Configuracion.h
-│ ├── Delay.h
-├── src/ → Implementaciones
-│ ├── Configuracion.cpp
-│ ├── Delay.cpp
-├── examples/ → Ejemplos listos para compilar
-│ ├── Ejemplo1.cpp
-├── LICENSE
+## 🛠️ Características Principales
+
+| Módulo | Descripción |
+| :--- | :--- |
+| 🧠 **CMSIS Core** | Acceso directo a registros sin intermediarios. |
+| 📍 **GPIO** | Configuración dinámica e interrupciones externas (EXTI). |
+| ⏱️ **Timers** | Soporte para PWM, Input Capture y modo Encoder. |
+| 🛰️ **USART** | Comunicación serial asíncrona con soporte para interrupciones. |
+| 📊 **ADC** | Conversiones analógicas precisas y rápidas. |
+| 🔗 **I2C** | Protocolo maestro para sensores y periféricos externos. |
+| 🕰️ **System Clock** | Gestión de HCLK, APB1 y APB2. |
+
+---
+
+## 📂 Estructura del Proyecto
+
+```text
+CMSIS-STM32F4xx-Framework/
+├── include/              # Cabeceras (.h)
+│   ├── Configuracion.h   # Clase principal de periféricos
+│   └── Delay.h          # Gestión de tiempos
+├── src/                  # Implementación (.cpp)
+│   ├── Configuracion.cpp
+│   └── Delay.cpp
+├── examples/             # Snippets listos para usar
+│   └── ...
+├── LICENSE               # Licencia MIT
 └── README.md
+
 ```
-## ⚙️ Uso en PlatformIO
 
-Crea un nuevo proyecto para STM32F411RE (Nucleo).
+---
 
-Copia las carpetas include/ y src/ dentro de lib/BareMetal-STM32F4xx/.
+## 🚦 Guía de Inicio Rápido
 
-Incluye en tu código:
+### 1. Instalación en PlatformIO
 
-#include "Configuracion.h"
-#include "Delay.h"
+Si usas **PlatformIO** (recomendado), sigue estos pasos:
 
-
-Compila y sube al microcontrolador.
-
-🧩 También puedes agregar esta librería como submódulo Git para mantenerla actualizada en múltiples proyectos.
-
-## 🧰 Dependencias
-
-CMSIS (ya incluida en el paquete de PlatformIO o STM32CubeIDE)
-
-Compilador ARM-GCC
-
-## 🪪 Licencia
-
-Este proyecto está bajo la licencia MIT, por lo que puedes usarlo libremente en proyectos personales, educativos o comerciales.
-
-## 🤝 Contribuciones
-
-¡Las contribuciones son bienvenidas!
-Puedes abrir un Issue o enviar un Pull Request con mejoras, correcciones o nuevos ejemplos.
-
-# 🧠 Ejemplos de uso por módulo
-## ⚙️ GPIO
+1. Crea un proyecto para tu placa (ej: `Nucleo-F411RE`).
+2. Copia las carpetas `include/` y `src/` dentro del directorio `lib/CMSIS-Framework/` de tu proyecto.
+3. En tu `main.cpp`, incluye los módulos necesarios:
 
 ```cpp
 #include "Configuracion.h"
 #include "Delay.h"
 
+```
+
+### 2. Uso de Git Submodules
+
+Para mantener la librería actualizada en varios proyectos:
+
+```bash
+git submodule add [https://github.com/tu-usuario/CMSIS-STM32F4xx-Framework.git](https://github.com/tu-usuario/CMSIS-STM32F4xx-Framework.git) lib/CMSIS-Framework
+
+```
+
+---
+
+## 📚 Ejemplos de Uso
+
+### 💡 GPIO & Blink
+
+Control sencillo de pines digitales.
+
+```cpp
 Pines led;
 
 int main() {
-    led.ModoPin(PA5, 1); // Configura PA5 como salida
+    led.ModoPin(PA5, 1); // PA5 como salida
     while (1) {
-        led.SalidaPin(PA5, 1); // LED ON
+        led.SalidaPin(PA5, 1); 
         Delay_ms(500);
-        led.SalidaPin(PA5, 0); // LED OFF
+        led.SalidaPin(PA5, 0);
         Delay_ms(500);
     }
 }
+
 ```
-## 💬 USART
+
+### 📡 Comunicación USART
+
+Envío de datos seriales a 9600 baudios.
 
 ```cpp
-#include "Configuracion.h"
-
 USART serial;
 
 int main() {
-    serial.Comunicacion(2, 'A', 9600); // USART2, Puerto A, 9600 baud
+    serial.Comunicacion(2, 'A', 9600); // USART2, Puerto A
     while (1) {
         serial.TransmitirDatos("Hola STM32 CMSIS!\r\n");
         Delay_ms(1000);
     }
 }
+
 ```
 
-## 🧭 ADC
+### 🌊 Control de PWM
+
+Ideal para servos o control de intensidad LED.
 
 ```cpp
-#include "Configuracion.h"
-
-Analogo adc;
-
-int main() {
-    adc.Conversion(PA0); // Canal ADC1 - PA0
-    adc.IniciarADC();    // Inicia conversión
-}
-```
-
-## 🕹️ PWM
-
-```cpp
-#include "Configuracion.h"
-
 Timers timer;
 
 int main() {
-    timer.PWM(3, 'B', 1, 0, 0, 0, 1000); // Timer3, canal 1, 1kHz
+    // Timer3, Canal 1, Frecuencia 1kHz
+    timer.PWM(3, 'B', 1, 0, 0, 0, 1000); 
     while (1) {
         for (int duty = 0; duty <= 100; duty += 5) {
             timer.CicloUtil(3, 1, duty);
@@ -137,16 +130,62 @@ int main() {
         }
     }
 }
+
 ```
-## 🔄 I2C
+
+<details>
+<summary><b>Ver más ejemplos (I2C, ADC, Interrupciones)</b></summary>
+
+#### Interrupciones EXTI
 
 ```cpp
-#include "Configuracion.h"
-
-i2c bus;
+Pines p;
+void ISR(void) { p.SalidaPin(PA5, 1); }
 
 int main() {
-    bus.IDOSC(1, 100000); // I2C1 a 100kHz
-    bus.DatoI2C(0x50, 0xA0); // Envía dato a dirección 0x50
+    p.Interrupcion(ISR, PA0, 1);
+    while(1);
 }
+
 ```
+
+#### Lectura ADC
+
+```cpp
+Analogo adc;
+int main() { 
+    adc.Conversion(PA0); 
+    adc.IniciarADC(); // El resultado se lee en ADC1->DR
+}
+
+```
+
+</details>
+
+---
+
+## 📋 Requisitos
+
+* **Toolchain:** `ARM-GCC`
+* **Entorno:** PlatformIO, STM32CubeIDE o Makefile propio.
+* **Librería:** CMSIS (usualmente proveída por el IDE).
+
+---
+
+## 🤝 Contribuciones
+
+¡Las ideas son bienvenidas!
+
+1. Haz un **Fork** del proyecto.
+2. Crea una rama para tu mejora (`git checkout -b feature/MejoraIncreible`).
+3. Haz un **Commit** (`git commit -m 'Añadida nueva funcionalidad'`).
+4. Haz **Push** (`git push origin feature/MejoraIncreible`).
+5. Abre un **Pull Request**.
+
+---
+
+## ⚖️ Licencia
+
+Este proyecto está bajo la **Licencia MIT**. Siéntete libre de usarlo en tus proyectos personales o comerciales.
+
+---
